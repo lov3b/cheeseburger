@@ -7,6 +7,7 @@
 #include <thread>
 #include <numbers>
 #include <regex>
+#include "format.hpp"
 
 constexpr int rgb_to_256(const uint8_t r, const uint8_t g, const uint8_t b) {
     return 16 + (36 * (r / 51) + 6 * (g / 51) + (b / 51));

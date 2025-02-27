@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <boost/program_options.hpp>
+#include "format.hpp"
 
 #include "version.hpp"
 

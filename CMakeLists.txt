@@ -43,3 +43,7 @@ if (MSVC)
 else ()
     target_compile_options(cheese PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif ()
+
+install(TARGETS cheese
+        RUNTIME DESTINATION bin
+)

@@ -18,6 +18,12 @@ cmake -S . -B build && cmake --build build --parallel 8
 
 You'll now have the executable in `build/cheese`
 
+If you'd like to install the program, just run
+
+```bash
+cmake --install build
+```
+
 ## Acknowledgement
 
 Both the project and the codebase are heavily inspired by the [*LOLCAT*](https://github.com/busyloop/lolcat) project. 

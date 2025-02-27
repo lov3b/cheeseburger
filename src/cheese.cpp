@@ -19,12 +19,16 @@ static bool is_truecolor() {
            (std::strstr(colorterm, "truecolor") || std::strstr(colorterm, "24bit"));
 }
 
-Cheese::Cheese(const cli::Args &args) : m_truecolor_mode(args.truecolor || is_truecolor()), m_invert(args.invert),
-                                        m_spread(args.spread), m_speed(args.speed), m_duration(args.duration),
-                                        m_freq(args.freq), m_animate(args.animate), m_force_term(args.force) {
-    is_truecolor();
-    m_color_offset = args.seed ? args.seed : static_cast<int>(std::random_device{}() % 256);
-}
+Cheese::Cheese(const cli::Args &args) :
+        m_spread(args.spread),
+        m_speed(args.speed),
+        m_freq(args.freq),
+        m_duration(args.duration),
+        m_color_offset(args.seed ? args.seed : static_cast<int>(std::random_device{}() % 256)),
+        m_invert(args.invert),
+        m_animate(args.animate),
+        m_truecolor_mode(args.truecolor || is_truecolor()),
+        m_force_term(args.force) {}
 
 void Cheese::process(std::istream &in) {
     if (m_animate && is_tty())

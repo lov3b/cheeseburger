@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef __cpp_lib_format
+#ifdef USE_LIBFMT
 
 #include <fmt/core.h>
 

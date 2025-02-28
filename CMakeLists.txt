@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(cheese VERSION 1.0.0)
+project(cheese VERSION 1.0.1)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -15,6 +15,7 @@ check_include_file_cxx("format" HAS_STD_FORMAT)
 if (NOT HAS_STD_FORMAT)
     message(STATUS "Using libfmt as a fallback for <format>")
     find_package(fmt REQUIRED)
+    add_compile_definitions(USE_LIBFMT)
 endif ()
 
 find_package(Boost COMPONENTS program_options REQUIRED)

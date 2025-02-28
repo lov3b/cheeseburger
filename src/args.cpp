@@ -54,19 +54,19 @@ std::optional<cli::Input> cli::parse_args(const int argc, char *argv[]) noexcept
         desc.add_options()
                 ("help,h", "Show help")
                 ("version,v", "Show version")
-                ("m_spread,p", po::value<float>(&args.spread)->default_value(3.0),
-                 "Rainbow m_spread")
-                ("m_freq,F", po::value<float>(&args.freq)->default_value(0.1),
+                ("spread,p", po::value<float>(&args.spread)->default_value(3.0),
+                 "Rainbow spread")
+                ("freq,F", po::value<float>(&args.freq)->default_value(0.1),
                  "Rainbow frequency")
                 ("seed,S", po::value<int>(&args.seed)->default_value(0),
                  "Rainbow seed (0=random)")
-                ("m_animate,a", po::bool_switch(&args.animate),
+                ("animate,a", po::bool_switch(&args.animate),
                  "Enable animation")
                 ("duration,d", po::value<int>(&args.duration)->default_value(12),
                  "Animation duration")
-                ("m_speed,s", po::value<float>(&args.speed)->default_value(20.0f),
-                 "Animation m_speed")
-                ("m_invert,i", po::bool_switch(&args.invert),
+                ("speed,s", po::value<float>(&args.speed)->default_value(20.0f),
+                 "Animation speed")
+                ("invert,i", po::bool_switch(&args.invert),
                  "Invert colors")
                 ("truecolor,t", po::bool_switch(&args.truecolor),
                  "Force truecolor mode")

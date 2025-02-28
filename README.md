@@ -1,6 +1,6 @@
 <div align="center">
-<img src="assets/img.png" alt="icon" height=300 />
-<h1>Cheeseburger</h1>
+    <img src="assets/cat.png" alt="icon" height=300 />
+    <h1>Cheeseburger</h1>
 </div>
 
 

@@ -8,6 +8,18 @@ A rewrite of the popular utility [*LOLCAT*](https://github.com/busyloop/lolcat) 
 often used in init scripts and such. It can at times be rather time-consuming to run it, since it's written in Ruby. Now
 it's *BLAZINGLY FAST* in C++
 
+## Example usage
+
+I've found that `fortune` + `cowsay` + `cheese` is an impeccable combo.
+
+<div align="center">
+    <img src="assets/example-usage.png"
+        alt="Example usage"
+        height=500
+    />
+</div>
+
+
 ## Getting it
 
 If you're on Arch Linux, just install it from the AUR with

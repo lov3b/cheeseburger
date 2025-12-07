@@ -35,6 +35,7 @@
 #include <numbers>
 #include <random>
 #include <string>
+#include <string_view>
 #include <thread>
 #include "format.hpp"
 
@@ -94,10 +95,10 @@ unsigned unicode_length(unsigned char c) {
         return 3; // 3-byte
     else if ((c & 0xF8) == 0xF0)
         return 4; // 4-byte
-    return 1; // treat invalid start bytes as 1-byte raw chars
+    return 1;
 }
 
-void Cheese::print_line(const std::string &line, bool /*animate*/) const {
+void Cheese::print_line(const std::string_view line) const {
     const size_t len = line.length();
     int char_index = 0;
 
@@ -147,14 +148,14 @@ void Cheese::print_line(const std::string &line, bool /*animate*/) const {
 }
 void Cheese::animate_line(const std::string &line) {
     std::cout << term::save_pos;
-    const int original_os = m_color_offset;
+    const int original_color_offset = m_color_offset;
     for (int i = 0; i < m_duration; i++) {
         std::cout << term::restore_pos;
         m_color_offset += static_cast<int>(m_spread);
-        print_line(line, true);
+        print_line(line);
         std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(1000 / m_speed)));
     }
-    m_color_offset = original_os;
+    m_color_offset = original_color_offset;
     m_line_count++;
 }
 

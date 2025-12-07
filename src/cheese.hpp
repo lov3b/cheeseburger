@@ -15,7 +15,7 @@ private:
 
     [[nodiscard]] std::string format_color(uint8_t r, uint8_t g, uint8_t b) const;
 
-    void print_line(const std::string &line, bool animate = false) const;
+    void print_line(const std::string_view line) const;
 
     void animate_line(const std::string &line);
 

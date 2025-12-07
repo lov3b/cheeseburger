@@ -29,9 +29,8 @@
 
 #include "args.hpp"
 
-#include <iostream>
 #include <boost/program_options.hpp>
-#include "format.hpp"
+#include <iostream>
 
 #include "version.hpp"
 
@@ -41,16 +40,16 @@ std::optional<cli::Input> cli::parse_args(const int argc, char *argv[]) noexcept
     Input input{};
     Args &args = input.args;
 
-    po::options_description desc(
-            "cheeseburger " PROJECT_VERSION "\n"
-            "\n"
-            "Cheeseburger is a rewrite, in C++, of the popular program lolcat.\n"
-            "It is aimed to provide higher speed, and thus be more usable in\n"
-            "init scripts, and such\n"
-            "\n"
-            "Options");
+    po::options_description desc("cheeseburger " PROJECT_VERSION "\n"
+                                 "\n"
+                                 "Cheeseburger is a rewrite, in C++, of the popular program lolcat.\n"
+                                 "It is aimed to provide higher speed, and thus be more usable in\n"
+                                 "init scripts, and such\n"
+                                 "\n"
+                                 "Options");
 
     try {
+        // clang-format off
         desc.add_options()
                 ("help,h", "Show help")
                 ("version,v", "Show version")
@@ -74,13 +73,13 @@ std::optional<cli::Input> cli::parse_args(const int argc, char *argv[]) noexcept
                  "Force color output")
                 ("files", po::value<std::vector<std::string> >(),
                  "Input files (also positional)");
+        // clang-format on
 
         po::positional_options_description p;
         p.add("files", -1);
 
         po::variables_map vm;
-        po::store(po::command_line_parser(argc, argv)
-                          .options(desc).positional(p).run(), vm);
+        po::store(po::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
         po::notify(vm);
 
         if (vm.contains("help")) {
@@ -92,9 +91,7 @@ std::optional<cli::Input> cli::parse_args(const int argc, char *argv[]) noexcept
             std::cout << "cheeseburger version " << PROJECT_VERSION << '\n';
             return std::nullopt;
         }
-        input.files = vm.contains("files")
-                      ? vm["files"].as<std::vector<std::string> >()
-                      : std::vector<std::string>{"-"};
+        input.files = vm.contains("files") ? vm["files"].as<std::vector<std::string>>() : std::vector<std::string>{"-"};
     } catch (const std::exception &e) {
         std::cerr << "Error: " << e.what() << "\n";
         return std::nullopt;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <regex>
 #include <random>
+#include <regex>
 #include <string>
 
 #include "args.hpp"

@@ -30,12 +30,13 @@
 #include "args.hpp"
 #include "cheese.hpp"
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 int main(const int argc, char *argv[]) {
     const auto opt_args = cli::parse_args(argc, argv);
-    if (!opt_args) return EXIT_SUCCESS;
+    if (!opt_args)
+        return EXIT_SUCCESS;
 
     Cheese cheese(opt_args->args);
     try {
@@ -44,7 +45,8 @@ int main(const int argc, char *argv[]) {
                 cheese.process(std::cin);
             } else {
                 std::ifstream fin(file);
-                if (!fin) throw std::runtime_error("Can't open file: " + file);
+                if (!fin)
+                    throw std::runtime_error("Can't open file: " + file);
                 cheese.process(fin);
             }
         }

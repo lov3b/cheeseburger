@@ -5,9 +5,10 @@
 #include <fmt/core.h>
 
 namespace std {
-    using fmt::format;
+using fmt::format;
 }
 
 #else
 #include <format>
 #endif
+

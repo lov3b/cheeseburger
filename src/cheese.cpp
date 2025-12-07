@@ -81,8 +81,8 @@ std::string Cheese::rainbow(const float freq, const float pos) const {
 std::string Cheese::format_color(const uint8_t r, const uint8_t g, const uint8_t b) const {
     const auto bg_fg = m_invert ? 48 : 38;
     if (m_truecolor_mode)
-        return std::format("\033[{};2;{};{};{}m", bg_fg, r, g, b);
-    return std::format("\033[{};5;{}m", bg_fg, rgb_to_256(r, g, b));
+        return fmt_compat::format("\033[{};2;{};{};{}m", bg_fg, r, g, b);
+    return fmt_compat::format("\033[{};5;{}m", bg_fg, rgb_to_256(r, g, b));
 }
 
 

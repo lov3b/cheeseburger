@@ -38,6 +38,10 @@ int main(const int argc, char *argv[]) {
     if (!opt_args)
         return EXIT_SUCCESS;
 
+    // Faster "print"
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
     Cheese cheese(opt_args->args);
     try {
         for (const auto &file: opt_args->files) {

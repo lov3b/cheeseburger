@@ -33,7 +33,7 @@
 #include <cstring>
 #include <iostream>
 #include <numbers>
-#include <regex>
+#include <random>
 #include <string>
 #include <thread>
 #include "format.hpp"
@@ -85,25 +85,66 @@ std::string Cheese::format_color(const uint8_t r, const uint8_t g, const uint8_t
     return fmt_compat::format("\033[{};5;{}m", bg_fg, rgb_to_256(r, g, b));
 }
 
-
-void Cheese::print_line(const std::string &line, bool /*animate*/) const {
-    static const std::regex pattern(R"((\x1B\[[0-?]*[ -/]*[@-~])|([^\x1B]))");
-    std::sregex_iterator it(line.begin(), line.end(), pattern);
-    int char_index = 0;
-    for (const std::sregex_iterator end; it != end; it++) {
-        const auto &match = *it;
-        if (match[1].matched) {
-            std::cout << match[1].str();
-        } else if (match[2].matched) {
-            const float pos = (static_cast<float>(m_color_offset + m_line_count + char_index)) / m_spread;
-            std::cout << rainbow(m_freq, pos) << match[2].str()
-                      << (m_invert ? term::RESET_BACKGROUND : term::RESET_FOREGROUND);
-            char_index++;
-        }
-    }
-    std::cout << '\n';
+unsigned unicode_length(unsigned char c) {
+    if ((c & 0x80) == 0)
+        return 1; // ASCII
+    else if ((c & 0xE0) == 0xC0)
+        return 2; // 2-byte
+    else if ((c & 0xF0) == 0xE0)
+        return 3; // 3-byte
+    else if ((c & 0xF8) == 0xF0)
+        return 4; // 4-byte
+    return 1; // treat invalid start bytes as 1-byte raw chars
 }
 
+void Cheese::print_line(const std::string &line, bool /*animate*/) const {
+    const size_t len = line.length();
+    int char_index = 0;
+
+    for (size_t i = 0; i < len; ++i) {
+        if (line[i] == '\033') {
+            std::cout << line[i]; // Print ESC
+
+            if (i + 1 < len && line[i + 1] == '[') {
+                std::cout << line[++i]; // Print '['
+
+                while (i + 1 < len) {
+                    const char next = line[i + 1];
+                    if (next >= 0x40 && next <= 0x7E) {
+                        std::cout << next;
+                        i++;
+                        break;
+                    }
+                    if (next < 0x20 || next > 0x7E) {
+                        break;
+                    }
+                    std::cout << next;
+                    i++;
+                }
+            }
+            continue;
+        }
+
+        // calculate color
+        const float pos = (static_cast<float>(m_color_offset + m_line_count + char_index)) / m_spread;
+        std::cout << rainbow(m_freq, pos);
+
+        unsigned char c = static_cast<unsigned char>(line[i]);
+        int char_len = unicode_length(c);
+
+        // print the unicode sequence
+        for (int byte = 0; byte < char_len && i < len; byte++) {
+            std::cout << line[i];
+            if (byte < char_len - 1)
+                i++;
+        }
+
+        std::cout << (m_invert ? term::RESET_BACKGROUND : term::RESET_FOREGROUND);
+        char_index++;
+    }
+
+    std::cout << '\n';
+}
 void Cheese::animate_line(const std::string &line) {
     std::cout << term::save_pos;
     const int original_os = m_color_offset;

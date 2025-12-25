@@ -24,13 +24,17 @@ jobs:
           - os: ubuntu-latest
             cpp_compiler: g++
             c_compiler: gcc
-            artifact_name: cheese-linux-gcc
+            artifact_name: cheese-linux-x64
 
           - os: macos-latest
             cpp_compiler: clang++
             c_compiler: clang
             artifact_name: cheese-macos-arm64
 
+          - os: macos-13
+            cpp_compiler: clang++
+            c_compiler: clang
+            artifact_name: cheese-macos-x64
     steps:
       - uses: actions/checkout@v4
 
@@ -38,11 +42,11 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libboost-program-options-dev libfmt-dev
+          sudo apt-get install -y libboost-program-options-dev
 
       - name: Install Dependencies (macOS)
         if: runner.os == 'macOS'
-        run: brew install boost fmt
+        run: brew install boost
 
       - name: Install Boost (Windows)
         if: runner.os == 'Windows'

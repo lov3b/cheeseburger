@@ -55,7 +55,7 @@ Cheese::Cheese(const cli::Args &args) :
 
 void Cheese::process(std::istream &in) {
     if (m_animate && is_tty())
-        std::cout << term::hide_cursor;
+        std::cout << term::HIDE_CURSOR;
 
     std::string line;
     while (std::getline(in, line)) {
@@ -68,7 +68,7 @@ void Cheese::process(std::istream &in) {
     }
 
     if (is_tty())
-        std::cout << term::show_cursor << term::reset;
+        std::cout << term::SHOW_CURSOR << term::RESET;
 }
 
 std::string Cheese::rainbow(const float freq, const float pos) const {
@@ -147,10 +147,10 @@ void Cheese::print_line(const std::string_view line) const {
     std::cout << '\n';
 }
 void Cheese::animate_line(const std::string &line) {
-    std::cout << term::save_pos;
+    std::cout << term::SAVE_POS;
     const int original_color_offset = m_color_offset;
     for (int i = 0; i < m_duration; i++) {
-        std::cout << term::restore_pos;
+        std::cout << term::RESTORE_POS;
         m_color_offset += static_cast<int>(m_spread);
         print_line(line);
         std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(1000 / m_speed)));

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(cheese VERSION 1.1.0)
+project(cheese VERSION 1.1.2)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -40,6 +40,7 @@ endif ()
 
 # Warnings
 if (MSVC)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_DEPRECATE)
     target_compile_options(cheese PRIVATE /W4 /WX)
 else ()
     target_compile_options(cheese PRIVATE -Wall -Wextra -Wpedantic -Werror)

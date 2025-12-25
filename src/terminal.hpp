@@ -1,16 +1,17 @@
 #pragma once
-
-#include <string>
+#include <string_view>
 
 namespace term {
 
-constexpr std::string_view reset = "\033[m";
-constexpr std::string_view hide_cursor = "\033[?25l";
-constexpr std::string_view show_cursor = "\033[?25h";
-constexpr std::string_view save_pos = "\0337";
-constexpr std::string_view restore_pos = "\0338";
-constexpr std::string_view RESET_BACKGROUND = "\033[49m";
-constexpr std::string_view RESET_FOREGROUND = "\033[39m";
+// clang-format off
+constexpr std::string_view RESET = "\x1b" "[m";
+constexpr std::string_view HIDE_CURSOR = "\x1b" "[?25l";
+constexpr std::string_view SHOW_CURSOR = "\x1b" "[?25h";
+constexpr std::string_view SAVE_POS = "\x1b" "7";
+constexpr std::string_view RESTORE_POS = "\x1b" "8";
+constexpr std::string_view RESET_BACKGROUND = "\x1b" "[49m";
+constexpr std::string_view RESET_FOREGROUND = "\x1b" "[39m";
+// clang-format on
 
 bool is_tty(int fd);
 
